@@ -1,0 +1,152 @@
+.TH hsh 1 "August 28, 2018" "1.0" "hsh General Commands Manual"
+
+.SH NAME
+
+.B simple_shell - hsh
+- The sh utility is the standard command interpreter for the system.
+
+
+.SH SYNOPSIS
+
+.B  bash [options] [file]
+.I  (no options yet)
+
+
+.SH DESCRIPTION
+
+The sh utility is a command language interpreter that shall execute commands read from a command line string, the standard input, or a specified file
+
+
+.SH OVERVIEW
+
+The shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands.
+
+
+.SH INVOCATION
+
+Compile simple_shell with the GNU Compiler Collection, using gcc plus the below specified flags:
+.P
+.RS
+.B $ gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+.P
+.RE
+shell incorporates many features to aid interactive use and has the advantage that the interpretative language is common to both interactive and non-interactive use (shell scripts)
+.P
+.RS
+.B $ ./hsh
+.P
+.RE
+simple_shell can be run in non-interactive mode through the use of shell scripts. This can involve the use of piping ('|'):
+.P
+.RS
+.B echo 'pwd' | ./hsh
+
+.SH SHELL HEADER
+
+#ifndef HEADER_FILE
+.br
+#define HEADER_FILE
+.br
+#define _GNU_SOURCE
+.br
+#include <stdio.h>
+.br
+#include <stdlib.h>
+.br
+#include <string.h>
+.br
+#include <unistd.h>
+.br
+#include <sys/types.h>
+.br
+#include <sys/stat.h>
+.br
+#include <sys/wait.h>
+.br
+#include <signal.h>
+.br
+extern char **environ;
+.br
+int _getchar(void);
+.br
+ssize_t _getline(char **linep, ssize_t *line_size, FILE *stream);
+.br
+void sig_handler(int signal);
+.br
+char *read_command(void);
+.br
+char **split_into_arguments(char *line);
+.br
+/* myshell functions */
+.br
+void myshell_loop(void);
+.br
+int myshell_execute(char **args);
+.br
+int myshell_external(char **args);
+.br
+/*Builtin functions*/
+.br
+int myshell_cd(char **args);
+.br
+int myshell_exit(char **args);
+.br
+int myshell_env(char **args);
+.br
+char *_getenv(const char *name);
+.br
+char **split_path(char *path);
+.br
+int _execve(char *path, char **args);
+.br
+void free_double_pointer(char **directories);
+.br
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+.br
+unsigned int _getpid(void);
+.br
+int no_exec_found(char **directories);
+.br
+/*str functions*/
+.br
+int _strncmp(const char *s1, const char *s2, int n);
+.br
+char *_strcat(char *dest, char *src);
+.br
+char *_strcpy(char *dest, char *src);
+.br
+size_t _strlen(const char *s);
+.br
+int _strcmp(char *s1, char *s2);
+.br
+int wait_free_directories(char **directories);
+.br
+#endif
+
+
+.SH BUILTINS
+
+The following builtin commands are supported:
+
+.IT
+.B env
+- prints the environment variables
+
+.B cd
+- change directory
+
+.B exit
+- exits the program
+
+Example of builtin command:
+work the same as in sh shell or bash shell
+
+.SH BUGS
+No known bugs.
+
+Please report any issues to the authors.
+
+
+.SH AUTHOR
+Sergio Rueda
+Maribel Serna A
